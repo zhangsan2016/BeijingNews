@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_splahs_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    </android.support.v4.view.ViewPager>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="30dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/ll_point_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            
+        </LinearLayout>
+        
+        <ImageView
+            android:id="@+id/iv_red_point"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:src="@drawable/dot_focus"/>
+
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/bt_start_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/btn_start_main_select"
+        android:textColor="@drawable/btn_start_main_textcolor_select"
+        android:text="开始体验"
+/>
+
+
+</RelativeLayout>
