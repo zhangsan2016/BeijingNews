@@ -1,5 +1,6 @@
 package beijinnews.example.ldgd.beijingnews.activity;
 
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import beijinnews.example.ldgd.beijingnews.R;
+import beijinnews.example.ldgd.beijingnews.SplashActivity;
+import beijinnews.example.ldgd.beijingnews.utils.CacheUtils;
+import beijinnews.example.ldgd.beijingnews.utils.DensityUtil;
 
 public class GuideActivity extends AppCompatActivity {
 
@@ -53,7 +57,7 @@ public class GuideActivity extends AppCompatActivity {
             ImageView point = new ImageView(this);
             point.setBackgroundResource(R.drawable.point_normal);
 
-           LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(10, 10);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DensityUtil.dip2px(this,10), DensityUtil.dip2px(this,10));
             if (i != 0) {
                 //不包括第0个，所有的点距离左边有10个像数
                 params.leftMargin = 10;
@@ -67,22 +71,37 @@ public class GuideActivity extends AppCompatActivity {
         viewpager.setAdapter(new MyPagerAdapter());
 
         //根据View的生命周期，当视图执行到onLayout或者onDraw的时候，视图的高和宽，边距都有了
-        iv_red_point.getViewTreeObserver().addOnGlobalLayoutListener( new MyOnGlobalLayoutListener());
+        iv_red_point.getViewTreeObserver().addOnGlobalLayoutListener(new MyOnGlobalLayoutListener());
 
         //得到屏幕滑动的百分比
-        viewpager.addOnPageChangeListener(new MyOnPageChangeListener() );
+        viewpager.addOnPageChangeListener(new MyOnPageChangeListener());
 
+        bt_start_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 保存曾经进入过主页面
+                CacheUtils.putBoolean(GuideActivity.this, SplashActivity.START_MAIN,true);
+
+                // 跳转到主页面
+                Intent intetnt = new Intent(GuideActivity.this,MainActivity.class);
+                startActivity(intetnt);
+
+                // 关闭引导页面
+                finish();
+            }
+        });
 
 
     }
 
 
-    private class  MyOnPageChangeListener implements ViewPager.OnPageChangeListener{
+    private class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
 
         /**
          * 当页面回调了会回调这个方法
-         * @param position 当前滑动页面的位置
-         * @param positionOffset 页面滑动的百分比
+         *
+         * @param position             当前滑动页面的位置
+         * @param positionOffset       页面滑动的百分比
          * @param positionOffsetPixels 滑动的像数
          */
         @Override
@@ -92,7 +111,7 @@ public class GuideActivity extends AppCompatActivity {
 //            Log.e(TAG,"position=="+position+",positionOffset=="+positionOffset+",positionOffsetPixels=="+positionOffsetPixels);
 
             //两点间滑动距离对应的坐标 = 原来的起始位置 +  两点间移动的距离
-            int leftmargin = (int) (position*leftMax +  (positionOffset * leftMax));
+            int leftmargin = (int) (position * leftMax + (positionOffset * leftMax));
 
             //params.leftMargin = 两点间滑动距离对应的坐标
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) iv_red_point.getLayoutParams();
@@ -102,14 +121,15 @@ public class GuideActivity extends AppCompatActivity {
 
         /**
          * 当页面被选中的时候，回调这个方法
+         *
          * @param position 被选中页面的对应的位置
          */
         @Override
         public void onPageSelected(int position) {
-            if(position == imageViews.size() - 1){
+            if (position == imageViews.size() - 1) {
                 // 最后个界面
                 bt_start_main.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 // 其他界面
                 bt_start_main.setVisibility(View.GONE);
             }
@@ -118,6 +138,7 @@ public class GuideActivity extends AppCompatActivity {
 
         /**
          * 当ViewPager页面滑动状态发生变化的时候
+         *
          * @param state
          */
         @Override
@@ -167,6 +188,7 @@ public class GuideActivity extends AppCompatActivity {
 
         /**
          * 判断
+         *
          * @param view   当前创建的视图
          * @param object 上面instantiateItem返回的结果值
          * @return
@@ -178,15 +200,15 @@ public class GuideActivity extends AppCompatActivity {
     }
 
 
-   private class MyOnGlobalLayoutListener implements ViewTreeObserver.OnGlobalLayoutListener{
+    private class MyOnGlobalLayoutListener implements ViewTreeObserver.OnGlobalLayoutListener {
 
-       @Override
-       public void onGlobalLayout() {
-           //只执行一次
-           iv_red_point.getViewTreeObserver().removeGlobalOnLayoutListener(MyOnGlobalLayoutListener.this);
-           // 间距  = 第1个点距离左边的距离 - 第0个点距离左边的距离
-            leftMax =  ll_point_group.getChildAt(1).getLeft() - ll_point_group.getChildAt(0).getLeft();
-           Log.e(TAG, "leftmax==" + leftMax );
-       }
-   }
+        @Override
+        public void onGlobalLayout() {
+            //只执行一次
+            iv_red_point.getViewTreeObserver().removeGlobalOnLayoutListener(MyOnGlobalLayoutListener.this);
+            // 间距  = 第1个点距离左边的距离 - 第0个点距离左边的距离
+            leftMax = ll_point_group.getChildAt(1).getLeft() - ll_point_group.getChildAt(0).getLeft();
+            Log.e(TAG, "leftmax==" + leftMax);
+        }
+    }
 }

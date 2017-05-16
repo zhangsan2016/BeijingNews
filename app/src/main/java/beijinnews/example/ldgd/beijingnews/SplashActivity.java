@@ -11,9 +11,14 @@ import android.view.animation.ScaleAnimation;
 import android.widget.RelativeLayout;
 
 import beijinnews.example.ldgd.beijingnews.activity.GuideActivity;
+import beijinnews.example.ldgd.beijingnews.activity.MainActivity;
 import beijinnews.example.ldgd.beijingnews.utils.CacheUtils;
 
 public class SplashActivity extends AppCompatActivity {
+    /**
+     * 静态常量
+     */
+    public static final String START_MAIN = "start_main";
     private RelativeLayout rl_splahs_root;
 
 
@@ -64,7 +69,7 @@ public class SplashActivity extends AppCompatActivity {
             if(isStartMain){
                 //如果进入过主页面，直接进入主页面
                 //2.跳转到主页面
-           //     intent = new Intent(SplashActivity.this,MainActivity.class);
+               intent = new Intent(SplashActivity.this,MainActivity.class);
 
             }else{
                 //如果没有进入过主页面，进入引导页面

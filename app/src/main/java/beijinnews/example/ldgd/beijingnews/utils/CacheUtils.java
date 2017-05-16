@@ -24,4 +24,9 @@ public class CacheUtils {
 
 
 
+    public static void putBoolean(Context context, String key,boolean value) {
+        SharedPreferences sp = context.getSharedPreferences("atguigu", Context.MODE_PRIVATE);
+        sp.edit().putBoolean(key,value).commit();
+
+    }
 }
