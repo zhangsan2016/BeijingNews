@@ -1,14 +1,10 @@
 package beijinnews.example.ldgd.beijingnews.fragment;
 
 
-import android.graphics.Color;
 import android.support.annotation.IdRes;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
@@ -36,6 +32,7 @@ import beijinnews.example.ldgd.beijingnews.utils.LogUtil;
 public class ContentFragment extends BaseFragment {
     @ViewInject(R.id.viewpager)
     private ViewPager viewpager;
+
     @ViewInject(R.id.rg_main)
     private RadioGroup rg_main;
 
@@ -63,11 +60,11 @@ public class ContentFragment extends BaseFragment {
 
         //初始化五个页面，并且放入集合中
         basePagers = new ArrayList<>();
-        basePagers.add(new HomePager(context));//主页面
-        basePagers.add(new NewsCenterPager(context));//新闻中心页面
-        basePagers.add(new SmartServicePager(context));//智慧服务页面
-        basePagers.add(new GovaffairPager(context));//政要指南页面
-        basePagers.add(new SettingPager(context));//设置中心面
+        basePagers.add(new HomePager(context));  //主页面
+        basePagers.add(new NewsCenterPager(context));  //新闻中心页面
+        basePagers.add(new SmartServicePager(context));  //智慧服务页面
+        basePagers.add(new GovaffairPager(context));   //政要指南页面
+        basePagers.add(new SettingPager(context));   //设置中心面
 
 
         //设置ViewPager的适配器
@@ -83,6 +80,16 @@ public class ContentFragment extends BaseFragment {
         rg_main.check(R.id.rb_home);
 
         basePagers.get(0).initData();
+    }
+
+
+    /**
+     * 得到新闻中心
+     * @return
+     */
+    public NewsCenterPager getNewsCenterPager() {
+        NewsCenterPager newsCenterPager = (NewsCenterPager) basePagers.get(1);
+        return newsCenterPager;
     }
 
 

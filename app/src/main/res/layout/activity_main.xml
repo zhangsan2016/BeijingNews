@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fl_main_content"
-    tools:context="beijinnews.example.ldgd.beijingnews.activity.MainActivity">
+    tools:context="beijinnews.example.ldgd.beijingnews.activity.MainActivity"
+    android:background="@android:color/white">
+
 
 </FrameLayout>

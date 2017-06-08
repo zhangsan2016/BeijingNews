@@ -29,4 +29,17 @@ public class CacheUtils {
         sp.edit().putBoolean(key,value).commit();
 
     }
+
+
+    public static void putString(Context context, String key,String value) {
+        SharedPreferences sp = context.getSharedPreferences("atguigu", Context.MODE_PRIVATE);
+        sp.edit().putString(key,value).commit();
+
+    }
+
+    public static String getString(Context context, String key) {
+        SharedPreferences sp = context.getSharedPreferences("atguigu", Context.MODE_PRIVATE);
+        return sp.getString(key,"");
+    }
+
 }

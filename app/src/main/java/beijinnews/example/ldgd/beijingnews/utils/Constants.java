@@ -14,7 +14,8 @@ public class Constants  {
     /**
      * 新闻中心的网络地址 ：http://192.168.1.197:8080/web_home/static/api/news/categories.json
      */
-    public   static final String NEWCENTER_PAGER_URL = BASE_URL + "/static/api/news/categories.json";
+    public   static final String NEWSCENTER_PAGER_URL = BASE_URL + "/static/api/news/categories.json";
+
 
 
 

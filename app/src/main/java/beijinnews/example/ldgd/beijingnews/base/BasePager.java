@@ -13,6 +13,11 @@ import beijinnews.example.ldgd.beijingnews.activity.MainActivity;
 
 /**
  * Created by ldgd on 2017/5/20.
+ *
+ * 作用：基类或者说公共类
+ * HomePager,NewsCenterPager,
+ * SmartServicePager,GovaffairPager
+ * SettingPager都继承BasePager
  */
 
 public class BasePager {
@@ -69,4 +74,6 @@ public class BasePager {
     public void initData(){
 
     }
+
+
 }

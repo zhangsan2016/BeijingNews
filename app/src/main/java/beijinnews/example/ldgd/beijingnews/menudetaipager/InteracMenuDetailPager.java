@@ -33,7 +33,7 @@ public class InteracMenuDetailPager extends MenuDetaiBasePager {
     @Override
     public void initData() {
         super.initData();
-        textView.setText("图组详情页面");
+        textView.setText("互动详情页面");
 
     }
 }

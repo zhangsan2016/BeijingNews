@@ -1,22 +1,20 @@
 package beijinnews.example.ldgd.beijingnews.fragment;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import beijinnews.example.ldgd.beijingnews.R;
+import beijinnews.example.ldgd.beijingnews.activity.MainActivity;
 import beijinnews.example.ldgd.beijingnews.base.BaseFragment;
-import beijinnews.example.ldgd.beijingnews.base.BasePager;
 import beijinnews.example.ldgd.beijingnews.domain.NewCenterPagerBase;
+import beijinnews.example.ldgd.beijingnews.pager.NewsCenterPager;
 import beijinnews.example.ldgd.beijingnews.utils.DensityUtil;
 import beijinnews.example.ldgd.beijingnews.utils.LogUtil;
 
@@ -38,17 +36,44 @@ public class LeftmenuFragment extends BaseFragment {
         listView.setCacheColorHint(Color.TRANSPARENT);
         listView.setSelector(android.R.color.transparent);
 
+        // listView Item点击事件
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 LogUtil.e("Listview Item 点击" + position);
+
+                //1.记录点击的位置，变成红色
                 prePosition = position;
                 adapter.notifyDataSetChanged();
 
+                //2.把左侧菜单关闭
+                MainActivity mainActivity = (MainActivity) context;
+                mainActivity.getSlidingMenu().toggle();  // 开-关
+
+                //3.切换到对应的详情页面：新闻详情页面，专题详情页面，图组详情页面，互动详情页面
+                swichPager(prePosition);
+
+
             }
+
+
         });
 
         return listView;
+    }
+
+    /**
+     * 根据位置切换不同详情页面
+     * @param prePosition
+     */
+    private void swichPager(int prePosition) {
+        // 获取内容页面
+        MainActivity mainActivity = (MainActivity) context;
+        ContentFragment contentFragment  = mainActivity.getContentFragment();
+        // 从内容页面获取新闻中心页面
+        NewsCenterPager NewsCenterPager =  contentFragment.getNewsCenterPager();
+        NewsCenterPager.swichPager(prePosition);
+
     }
 
     @Override
@@ -60,6 +85,10 @@ public class LeftmenuFragment extends BaseFragment {
         this.data = data;
         adapter = new LeftmenuFragmentAdapter();
         listView.setAdapter(adapter);
+
+        //设置默认页面
+        swichPager(prePosition);
+
 
     }
 
