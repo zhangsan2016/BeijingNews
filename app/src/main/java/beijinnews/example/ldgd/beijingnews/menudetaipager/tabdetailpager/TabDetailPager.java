@@ -64,9 +64,10 @@ public class TabDetailPager extends MenuDetaiBasePager {
         x.http().get(requestParams, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                LogUtil.e("TabDetailPager 页面数据请求成功 == " + result);
+                LogUtil.e("TabDetailPager 页面数据请求成功 == " );
 
                 processData(result);
+
             }
 
             @Override

@@ -22,6 +22,7 @@ import beijinnews.example.ldgd.beijingnews.R;
 import beijinnews.example.ldgd.beijingnews.base.MenuDetaiBasePager;
 import beijinnews.example.ldgd.beijingnews.domain.NewCenterPagerBase;
 import beijinnews.example.ldgd.beijingnews.menudetaipager.tabdetailpager.TabDetailPager;
+import beijinnews.example.ldgd.beijingnews.utils.LogUtil;
 
 /**
  * Created by ldgd on 2017/6/1.
@@ -84,25 +85,27 @@ public class NewsMenuDetailPager extends MenuDetaiBasePager {
 
         // 设置适配器
         viewPager.setAdapter(new MyNewsMenuDetailPagerAdapter());
-       //  ViewPager和 TabPageIndicator关联
+
+        //  ViewPager和 TabPageIndicator关联
         indicator.setViewPager(viewPager);
 
 
     }
 
-        private class MyNewsMenuDetailPagerAdapter extends PagerAdapter {
+    private class MyNewsMenuDetailPagerAdapter extends PagerAdapter {
 
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return children.get(position).getTitle();
-            }
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return children.get(position).getTitle();
+        }
 
-            @Override
+        @Override
         public Object instantiateItem(ViewGroup container, int position) {
             TabDetailPager tabDetailPager = tabDetailPagers.get(position);
             View rootView = tabDetailPager.rootView;
             tabDetailPager.initData();  // 初始化数据
             container.addView(rootView);
+
             return rootView;
         }
 
