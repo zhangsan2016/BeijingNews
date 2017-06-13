@@ -40,10 +40,11 @@ public class NewsMenuDetailPager extends MenuDetaiBasePager {
      */
     private ArrayList<TabDetailPager> tabDetailPagers;
 
+
     @ViewInject(R.id.indicator)
     private TabPageIndicator indicator;
 
-    @ViewInject(R.id.viewpager)
+    @ViewInject(R.id.news_menu_viewpager)
     private ViewPager viewPager;
 
     @ViewInject(R.id.ib_tab_next)
@@ -73,6 +74,7 @@ public class NewsMenuDetailPager extends MenuDetaiBasePager {
         return view;
     }
 
+    private int tempPositon = 0 ;
     @Override
     public void initData() {
         super.initData();
@@ -88,6 +90,13 @@ public class NewsMenuDetailPager extends MenuDetaiBasePager {
 
         //  ViewPager和 TabPageIndicator关联
         indicator.setViewPager(viewPager);
+
+      // viewPager.setCurrentItem(tempPositon);
+
+
+
+
+
 
 
     }

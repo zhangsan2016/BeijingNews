@@ -3,6 +3,7 @@ package beijinnews.example.ldgd.beijingnews.pager;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.TextUtils;
+import android.text.method.Touch;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -93,6 +94,7 @@ public class NewsCenterPager extends BasePager {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 LogUtil.e("使用XUtil3 联网请求失败 ==" + ex.getMessage());
+
             }
 
             @Override
