@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 
 import org.xutils.common.Callback;
@@ -27,6 +29,7 @@ import java.net.URL;
 import java.util.List;
 
 import beijinnews.example.ldgd.beijingnews.R;
+import beijinnews.example.ldgd.beijingnews.View.HorizontalScrollViewPager;
 import beijinnews.example.ldgd.beijingnews.base.MenuDetaiBasePager;
 import beijinnews.example.ldgd.beijingnews.domain.NewCenterPagerBase;
 import beijinnews.example.ldgd.beijingnews.domain.TabDetailPagerBase;
@@ -42,7 +45,7 @@ import beijinnews.example.ldgd.beijingnews.utils.LogUtil;
 public class TabDetailPager extends MenuDetaiBasePager {
 
     private NewCenterPagerBase.DataBean.ChildrenBean childrenData;
-    private ViewPager viewpager;
+    private HorizontalScrollViewPager viewpager;
     private TextView textView;
     private LinearLayout ll_point_group;
     /**
@@ -89,7 +92,7 @@ public class TabDetailPager extends MenuDetaiBasePager {
 
 
         View topNewsView = View.inflate(context, R.layout.topnews, null);
-        viewpager = (ViewPager) topNewsView.findViewById(R.id.top_news_viewpager);
+        viewpager = (HorizontalScrollViewPager) topNewsView.findViewById(R.id.top_news_viewpager);
         textView = (TextView) topNewsView.findViewById(R.id.tv_top_news_title);
         ll_point_group = (LinearLayout) topNewsView.findViewById(R.id.ll_top_news_point_group);
 
@@ -105,6 +108,9 @@ public class TabDetailPager extends MenuDetaiBasePager {
         url = Constants.BASE_URL + childrenData.getUrl();
         LogUtil.e("URL == " + url);
         getDataFromNet();
+
+        // 初始化头部滚动图片中定位圆点的位置
+        prePosition = 0;
     }
 
     public void getDataFromNet() {
@@ -113,7 +119,6 @@ public class TabDetailPager extends MenuDetaiBasePager {
             @Override
             public void onSuccess(String result) {
                 LogUtil.e("TabDetailPager 页面数据请求成功 == ");
-
                 processData(result);
 
             }
@@ -148,6 +153,7 @@ public class TabDetailPager extends MenuDetaiBasePager {
         topnews = tabDetailPagerBase.getData().getTopnews();
         // 设置滚动新闻标题
         textView.setText(topnews.get(prePosition).getTitle());
+
 
         // 添加定位圆点
           addPoint();
@@ -223,7 +229,16 @@ public class TabDetailPager extends MenuDetaiBasePager {
             String imageUrl = Constants.BASE_URL + topnewsBean.getTopimage();
 
             //联网请求图片
-            x.image().bind(imageView, imageUrl,imageOptions);
+           //   x.image().bind(imageView, imageUrl,imageOptions);
+           // x.image().bind(imageView, imageUrl);
+
+            //请求图片使用glide
+            Glide.with(context)
+                    .load(imageUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.news_pic_default)
+                    .error(R.drawable.news_pic_default)
+                    .into(imageView);
 
 
             return imageView;
@@ -285,7 +300,21 @@ public class TabDetailPager extends MenuDetaiBasePager {
             TabDetailPagerBase.DataBean.NewsBean newsBean = news.get(position);
             //请求图片XUtils3
             String imageUrl = Constants.BASE_URL + newsBean.getListimage();
-            x.image().bind(viewHolder.iv_icon, imageUrl,imageOptions);
+            // x.image().bind(viewHolder.iv_icon, imageUrl,imageOptions);
+          /*  GlideApp.with(myFragment)
+                    .load(url)
+                    .centerCrop()
+                    .placeholder(R.drawable.loading_spinner)
+                    .into(myImageView);*/
+
+            //请求图片使用glide
+            Glide.with(context)
+                    .load(imageUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.news_pic_default)
+                    .error(R.drawable.news_pic_default)
+                    .into(viewHolder.iv_icon);
+
 
             // 设置标题
             viewHolder.tv_title.setText(newsBean.getTitle());
@@ -317,8 +346,12 @@ public class TabDetailPager extends MenuDetaiBasePager {
             // 设置文本
             textView.setText(topnews.get(position).getTitle());
 
+            LogUtil.e("prePosition = " + prePosition);
+
             // 设置圆点状态
+            // 把之前的圆点变灰
             ll_point_group.getChildAt(prePosition).setEnabled(false);
+            // 设置当前红色圆点
             ll_point_group.getChildAt(position).setEnabled(true);
        /*     for (int i = 0; i < ll_point_group.getChildCount(); i++) {
                 if(i == position){

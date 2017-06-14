@@ -32,7 +32,7 @@ public class NoScrollViewPager extends ViewPager {
     }
 
     /**
-     * 重写触摸事件，消费掉（使其不可滚动）
+     * 重写触摸事件，消费掉（使其不可滚动） 屏蔽了系统自带带特有的左右滑动事件
      *
      * @param ev
      * @return

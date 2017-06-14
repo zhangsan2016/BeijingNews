@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.viewpagerindicator.TabPageIndicator;
 
 import org.xutils.view.annotation.ViewInject;
@@ -17,8 +18,10 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 
 import beijinnews.example.ldgd.beijingnews.R;
+import beijinnews.example.ldgd.beijingnews.activity.MainActivity;
 import beijinnews.example.ldgd.beijingnews.base.MenuDetaiBasePager;
 import beijinnews.example.ldgd.beijingnews.domain.NewCenterPagerBase;
 import beijinnews.example.ldgd.beijingnews.menudetaipager.tabdetailpager.TabDetailPager;
@@ -93,10 +96,8 @@ public class NewsMenuDetailPager extends MenuDetaiBasePager {
 
       // viewPager.setCurrentItem(tempPositon);
 
-
-
-
-
+        //注意以后监听页面的变化 ，TabPageIndicator监听页面的变化
+        indicator.setOnPageChangeListener(new MyOnPageChangeListener());
 
 
     }
@@ -133,4 +134,37 @@ public class NewsMenuDetailPager extends MenuDetaiBasePager {
             return view == object;
         }
     }
+
+    private class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+             if(position == 0){
+                 //SlidingMenu可以全屏滑动
+                 isEnableSlidingMenu(SlidingMenu.TOUCHMODE_FULLSCREEN);
+             }else {
+                 //SlidingMenu不可以滑动
+                 isEnableSlidingMenu(SlidingMenu.TOUCHMODE_NONE);
+             }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    }
+
+    /**
+     根据传人的参数设置是否让SlidingMenu可以滑动
+     */
+    private void isEnableSlidingMenu(int touchmodeFullscreen) {
+
+        MainActivity mainActivity = (MainActivity) context;
+        mainActivity.getSlidingMenu().setTouchModeAbove(touchmodeFullscreen);
+    }
+
 }
