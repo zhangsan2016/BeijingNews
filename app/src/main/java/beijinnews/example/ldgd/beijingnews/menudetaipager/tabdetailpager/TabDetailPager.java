@@ -1,17 +1,13 @@
 package beijinnews.example.ldgd.beijingnews.menudetaipager.tabdetailpager;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -22,18 +18,16 @@ import org.xutils.common.Callback;
 import org.xutils.common.util.DensityUtil;
 import org.xutils.http.RequestParams;
 import org.xutils.image.ImageOptions;
-import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import java.net.URL;
 import java.util.List;
 
 import beijinnews.example.ldgd.beijingnews.R;
 import beijinnews.example.ldgd.beijingnews.View.HorizontalScrollViewPager;
+import beijinnews.example.ldgd.beijingnews.View.RefreshListView;
 import beijinnews.example.ldgd.beijingnews.base.MenuDetaiBasePager;
 import beijinnews.example.ldgd.beijingnews.domain.NewCenterPagerBase;
 import beijinnews.example.ldgd.beijingnews.domain.TabDetailPagerBase;
-import beijinnews.example.ldgd.beijingnews.menudetaipager.NewsMenuDetailPager;
 import beijinnews.example.ldgd.beijingnews.utils.Constants;
 import beijinnews.example.ldgd.beijingnews.utils.LogUtil;
 
@@ -55,7 +49,7 @@ public class TabDetailPager extends MenuDetaiBasePager {
 
     private String url;
 
-    private ListView newsListView;
+    private RefreshListView newsListView;
     private List<TabDetailPagerBase.DataBean.NewsBean> news;
     /**
      * 之前点高亮显示的位置
@@ -85,7 +79,7 @@ public class TabDetailPager extends MenuDetaiBasePager {
     @Override
     public View initView() {
         View view = View.inflate(context, R.layout.tabdetail_pager, null);
-        newsListView = (ListView) view.findViewById(R.id.tab_detail_listview);
+        newsListView = (RefreshListView) view.findViewById(R.id.tab_detail_listview);
 
         // xutils框架绑定数据
         //x.view().inject(TabDetailPager.this, view);
@@ -99,8 +93,19 @@ public class TabDetailPager extends MenuDetaiBasePager {
         //  把顶部轮播图部分视图，以头的方式添加到ListView中
         newsListView.addHeaderView(topNewsView);
 
+        newsListView.setOnRefreshListener(new MyOnRefreshListener());
 
         return view;
+    }
+
+    private class  MyOnRefreshListener implements RefreshListView.OnRefreshListener{
+
+        @Override
+        public void onPullDownRefresh() {
+          //  Toast.makeText(context,"回调成功！",Toast.LENGTH_LONG).show();
+            getDataFromNet();
+
+        }
     }
 
     @Override
@@ -115,17 +120,24 @@ public class TabDetailPager extends MenuDetaiBasePager {
 
     public void getDataFromNet() {
         RequestParams requestParams = new RequestParams(url);
+        requestParams.setConnectTimeout(4000);
         x.http().get(requestParams, new Callback.CommonCallback<String>() {
+
             @Override
             public void onSuccess(String result) {
                 LogUtil.e("TabDetailPager 页面数据请求成功 == ");
                 processData(result);
+                // 隐藏下拉刷新控件-重写显示数据，更新时间
+                 newsListView.onRefreshFinish(true);
 
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 LogUtil.e("TabDetailPager 页面数据请求失败 == " + ex.getMessage());
+
+                //  隐藏下拉刷新控件 - 不更新时间，只是隐藏
+                newsListView.onRefreshFinish(false);
             }
 
             @Override
@@ -346,7 +358,6 @@ public class TabDetailPager extends MenuDetaiBasePager {
             // 设置文本
             textView.setText(topnews.get(position).getTitle());
 
-            LogUtil.e("prePosition = " + prePosition);
 
             // 设置圆点状态
             // 把之前的圆点变灰

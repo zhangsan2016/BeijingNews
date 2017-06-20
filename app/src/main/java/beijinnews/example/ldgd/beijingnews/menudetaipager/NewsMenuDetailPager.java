@@ -1,14 +1,11 @@
 package beijinnews.example.ldgd.beijingnews.menudetaipager;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.viewpagerindicator.TabPageIndicator;
@@ -18,14 +15,12 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 
 import beijinnews.example.ldgd.beijingnews.R;
 import beijinnews.example.ldgd.beijingnews.activity.MainActivity;
 import beijinnews.example.ldgd.beijingnews.base.MenuDetaiBasePager;
 import beijinnews.example.ldgd.beijingnews.domain.NewCenterPagerBase;
 import beijinnews.example.ldgd.beijingnews.menudetaipager.tabdetailpager.TabDetailPager;
-import beijinnews.example.ldgd.beijingnews.utils.LogUtil;
 
 /**
  * Created by ldgd on 2017/6/1.
