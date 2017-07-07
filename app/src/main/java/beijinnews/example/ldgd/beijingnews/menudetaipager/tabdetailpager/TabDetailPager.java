@@ -1,11 +1,13 @@
 package beijinnews.example.ldgd.beijingnews.menudetaipager.tabdetailpager;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,8 +32,11 @@ import beijinnews.example.ldgd.beijingnews.View.RefreshListView;
 import beijinnews.example.ldgd.beijingnews.base.MenuDetaiBasePager;
 import beijinnews.example.ldgd.beijingnews.domain.NewCenterPagerBase;
 import beijinnews.example.ldgd.beijingnews.domain.TabDetailPagerBase;
+import beijinnews.example.ldgd.beijingnews.utils.CacheUtils;
 import beijinnews.example.ldgd.beijingnews.utils.Constants;
 import beijinnews.example.ldgd.beijingnews.utils.LogUtil;
+
+import static beijinnews.example.ldgd.beijingnews.utils.CacheUtils.getString;
 
 /**
  * Created by ldgd on 2017/6/5.
@@ -39,6 +44,8 @@ import beijinnews.example.ldgd.beijingnews.utils.LogUtil;
  */
 
 public class TabDetailPager extends MenuDetaiBasePager {
+
+    public static final String READ_ARRAY_ID = "read_array_id";
 
     private NewCenterPagerBase.DataBean.ChildrenBean childrenData;
     private HorizontalScrollViewPager viewpager;
@@ -102,10 +109,13 @@ public class TabDetailPager extends MenuDetaiBasePager {
         ll_point_group = (LinearLayout) topNewsView.findViewById(R.id.ll_top_news_point_group);
 
         //  把顶部轮播图部分视图，以头的方式添加到ListView中
-       //  newsListView.addHeaderView(topNewsView);
+        //  newsListView.addHeaderView(topNewsView);
         newsListView.addTopNewsView(topNewsView);
 
+        // 下拉刷新
         newsListView.setOnRefreshListener(new MyOnRefreshListener());
+        //设置ListView的item的点击监听
+        newsListView.setOnItemClickListener(new MyOnItemClickListener());
 
         return view;
     }
@@ -422,6 +432,13 @@ public class TabDetailPager extends MenuDetaiBasePager {
             // 设置更新时间
             viewHolder.tv_time.setText(newsBean.getPubdate());
 
+            String idArray = CacheUtils.getString(context,READ_ARRAY_ID);
+            if (idArray.contains(newsBean.getId()+"")){
+                viewHolder.tv_title.setTextColor(Color.RED);
+            }else{
+                viewHolder.tv_title.setTextColor(Color.BLACK);
+            }
+
             return convertView;
         }
 
@@ -471,5 +488,28 @@ public class TabDetailPager extends MenuDetaiBasePager {
         }
     }
 
+    /**
+     * listView Item 点击事件
+     */
+    private class MyOnItemClickListener implements android.widget.AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+            int realPosition = position - 1;
+            TabDetailPagerBase.DataBean.NewsBean newsData = news.get(realPosition);
+
+            //1,取出保存的id集合
+            String idArray = getString(context, READ_ARRAY_ID);
+
+            //2，判断是否存在，如果不存在，才保存，并且刷新适配器
+            if(!idArray.contains(newsData.getId() + "")){
+                CacheUtils.putString(context,READ_ARRAY_ID,idArray + newsData.getId());
+                //刷新适配器
+                tabDetailPagerListAdapter.notifyDataSetChanged();//getCount-->getView
+            }
+
+
+
+        }
+    }
 }
