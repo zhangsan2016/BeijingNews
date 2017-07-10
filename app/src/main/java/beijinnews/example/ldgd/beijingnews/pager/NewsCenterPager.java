@@ -3,7 +3,6 @@ package beijinnews.example.ldgd.beijingnews.pager;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.TextUtils;
-import android.text.method.Touch;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -132,7 +131,7 @@ public class NewsCenterPager extends BasePager {
         // 添加详情页面
         detaiBasePagers = new ArrayList<>();
         detaiBasePagers.add(new NewsMenuDetailPager(context, data.get(0)));  // 新闻详情
-        detaiBasePagers.add(new TopicMenuDetailPager(context));  // 专题详情
+        detaiBasePagers.add(new TopicMenuDetailPager(context, data.get(0)));  // 专题详情
         detaiBasePagers.add(new PhotosMenuDetailPager(context));   // 图组详情
         detaiBasePagers.add(new InteracMenuDetailPager(context));   // 互动详情
 

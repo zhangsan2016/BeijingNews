@@ -154,7 +154,7 @@ public class NewsMenuDetailPager extends MenuDetaiBasePager {
     }
 
     /**
-     根据传人的参数设置是否让SlidingMenu可以滑动
+     根据传入的参数设置是否让SlidingMenu可以滑动
      */
     private void isEnableSlidingMenu(int touchmodeFullscreen) {
 
