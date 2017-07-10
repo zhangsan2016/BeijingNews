@@ -10,6 +10,7 @@ import beijinnews.example.ldgd.beijingnews.base.MenuDetaiBasePager;
 
 /**
  * Created by ldgd on 2017/6/3.
+ * 互动页面
  */
 
 public class PhotosMenuDetailPager extends MenuDetaiBasePager {

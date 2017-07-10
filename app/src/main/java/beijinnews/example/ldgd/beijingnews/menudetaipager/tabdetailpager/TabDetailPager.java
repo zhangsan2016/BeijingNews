@@ -1,10 +1,14 @@
 package beijinnews.example.ldgd.beijingnews.menudetaipager.tabdetailpager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -29,6 +33,7 @@ import java.util.List;
 import beijinnews.example.ldgd.beijingnews.R;
 import beijinnews.example.ldgd.beijingnews.View.HorizontalScrollViewPager;
 import beijinnews.example.ldgd.beijingnews.View.RefreshListView;
+import beijinnews.example.ldgd.beijingnews.activity.NewsDetailActivity;
 import beijinnews.example.ldgd.beijingnews.base.MenuDetaiBasePager;
 import beijinnews.example.ldgd.beijingnews.domain.NewCenterPagerBase;
 import beijinnews.example.ldgd.beijingnews.domain.TabDetailPagerBase;
@@ -74,6 +79,20 @@ public class TabDetailPager extends MenuDetaiBasePager {
      */
     private String moreUrl;
     private TabDetailPagerListAdapter tabDetailPagerListAdapter;
+
+    private Handler internalHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            //切换ViewPager的下一个页面
+            int item = (viewpager.getCurrentItem() + 1) % topnews.size();
+            viewpager.setCurrentItem(item);
+            internalHandler.postDelayed(new MyRunnable(), 4000);
+
+        }
+    };
+    private boolean isDragging = false;
 
     public TabDetailPager(Context context, NewCenterPagerBase.DataBean.ChildrenBean childrenData) {
         super(context);
@@ -143,6 +162,7 @@ public class TabDetailPager extends MenuDetaiBasePager {
 
         }
     }
+
 
     /**
      * 获取更多
@@ -280,6 +300,11 @@ public class TabDetailPager extends MenuDetaiBasePager {
 
         }
 
+        // 设置轮播图效果
+        //是把消息队列所有的消息和回调移除
+        internalHandler.removeCallbacksAndMessages(null);
+        internalHandler.postDelayed(new MyRunnable(), 4000);
+
 
     }
 
@@ -350,6 +375,31 @@ public class TabDetailPager extends MenuDetaiBasePager {
                     .placeholder(R.drawable.news_pic_default)
                     .error(R.drawable.news_pic_default)
                     .into(imageView);
+
+
+            imageView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:  // 按下
+                            internalHandler.removeCallbacksAndMessages(null);
+                            LogUtil.e("按下");
+                            break;
+                        case MotionEvent.ACTION_UP: // 离开
+                            LogUtil.e("离开");
+                            internalHandler.removeCallbacksAndMessages(null);
+                            internalHandler.postDelayed(new MyRunnable(), 4000);
+
+                            break;
+                /*        case MotionEvent.ACTION_CANCEL:  // 取消  BUG：手动滑动视图的时候会执行这个操作
+                            LogUtil.e("取消");
+                            internalHandler.removeCallbacksAndMessages(null);
+                            internalHandler.postDelayed(new MyRunnable(), 4000);
+                            break;*/
+                    }
+                    return true;
+                }
+            });
 
 
             return imageView;
@@ -432,10 +482,10 @@ public class TabDetailPager extends MenuDetaiBasePager {
             // 设置更新时间
             viewHolder.tv_time.setText(newsBean.getPubdate());
 
-            String idArray = CacheUtils.getString(context,READ_ARRAY_ID);
-            if (idArray.contains(newsBean.getId()+"")){
+            String idArray = CacheUtils.getString(context, READ_ARRAY_ID);
+            if (idArray.contains(newsBean.getId() + "")) {
                 viewHolder.tv_title.setTextColor(Color.RED);
-            }else{
+            } else {
                 viewHolder.tv_title.setTextColor(Color.BLACK);
             }
 
@@ -484,6 +534,23 @@ public class TabDetailPager extends MenuDetaiBasePager {
 
         @Override
         public void onPageScrollStateChanged(int state) {
+            if (state == ViewPager.SCROLL_STATE_DRAGGING) {
+                LogUtil.e("拖拽");
+                isDragging = true;
+                internalHandler.removeCallbacksAndMessages(null);
+            } else if (state == ViewPager.SCROLL_STATE_IDLE && isDragging) {
+                LogUtil.e("惯性");
+                isDragging = false;
+                internalHandler.removeCallbacksAndMessages(null);
+                internalHandler.postDelayed(new MyRunnable(), 4000);
+
+            } else if (state == ViewPager.SCROLL_STATE_SETTLING && isDragging) {
+                LogUtil.e("静止");
+                isDragging = false;
+                internalHandler.removeCallbacksAndMessages(null);
+                internalHandler.postDelayed(new MyRunnable(), 4000);
+
+            }
 
         }
     }
@@ -495,6 +562,7 @@ public class TabDetailPager extends MenuDetaiBasePager {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+            // 标定点击标题变灰
             int realPosition = position - 1;
             TabDetailPagerBase.DataBean.NewsBean newsData = news.get(realPosition);
 
@@ -502,14 +570,24 @@ public class TabDetailPager extends MenuDetaiBasePager {
             String idArray = getString(context, READ_ARRAY_ID);
 
             //2，判断是否存在，如果不存在，才保存，并且刷新适配器
-            if(!idArray.contains(newsData.getId() + "")){
-                CacheUtils.putString(context,READ_ARRAY_ID,idArray + newsData.getId());
+            if (!idArray.contains(newsData.getId() + "")) {
+                CacheUtils.putString(context, READ_ARRAY_ID, idArray + newsData.getId());
                 //刷新适配器
                 tabDetailPagerListAdapter.notifyDataSetChanged();//getCount-->getView
             }
 
+            Intent intent = new Intent(context, NewsDetailActivity.class);
+            intent.putExtra("url", Constants.BASE_URL + newsData.getUrl());
+            context.startActivity(intent);
 
+        }
+    }
 
+    private class MyRunnable implements Runnable {
+
+        @Override
+        public void run() {
+            internalHandler.sendEmptyMessage(0);
         }
     }
 }

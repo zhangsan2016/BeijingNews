@@ -5,8 +5,6 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import beijinnews.example.ldgd.beijingnews.utils.LogUtil;
-
 /**
  * Created by ldgd on 2017/6/14.
  */
@@ -40,21 +38,21 @@ public class HorizontalScrollViewPager extends ViewPager {
                 startY = ev.getY();
 
 
-                LogUtil.e("startX = " + startX + "   startY = " + startY);
+               // LogUtil.e("startX = " + startX + "   startY = " + startY);
                 break;
             case MotionEvent.ACTION_MOVE:
                 // 来到新坐标
                 float endX = ev.getX();
                 float endY = ev.getY();
 
-                LogUtil.e("endX = " + endX + "   endY = " + endY);
+             //   LogUtil.e("endX = " + endX + "   endY = " + endY);
 
 
                 //  计算偏移量
                 float distanceX = endX - startX;
                 float distanceY = endY - startY;
 
-                LogUtil.e("distanceX = " + distanceX + "   distanceY = " + distanceY);
+         //       LogUtil.e("distanceX = " + distanceX + "   distanceY = " + distanceY);
 
                 // 判断是否横向滑动（使用绝对值判断，因为从右到左横向滑行X坐标为负数）
                 if (Math.abs(distanceX) > Math.abs(distanceY)) {        // 横向滑动

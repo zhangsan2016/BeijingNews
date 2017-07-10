@@ -36,6 +36,7 @@ public class GuideActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_guide);
 
         viewpager = (ViewPager) findViewById(R.id.viewpager);
