@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import beijinnews.example.ldgd.beijingnews.R;
 
@@ -69,6 +68,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         ibShare.setOnClickListener(this);
         ibSwichListGrid.setOnClickListener(this);
         btnCart.setOnClickListener(this);
+        ibBack.setOnClickListener(this);
     }
 
     /**
@@ -82,17 +82,15 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         if (v == ibMenu) {
             // Handle ccks for ibMenu
         } else if (v == ibTextsize) {
-
-            Toast.makeText(this,"showChangeTextSizeDialog",Toast.LENGTH_SHORT).show();
             showChangeTextSizeDialog();
-
 
         } else if (v == ibShare) {
             // Handle clicks for ibShare
         } else if (v == ibSwichListGrid) {
             // Handle clicks for ibSwichListGrid
         } else if (v == btnCart) {
-            // Handle clicks for btnCart
+        }else if (v == ibBack){
+            finish();
         }
     }
 

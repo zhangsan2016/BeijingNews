@@ -63,9 +63,9 @@ public class NewsCenterPager extends BasePager {
         textView.setText("新闻中心内容");
 
         //得到缓存数据
-        String saveJson = CacheUtils.getString(context,Constants.NEWSCENTER_PAGER_URL);
+        String saveJson = CacheUtils.getString(context, Constants.NEWSCENTER_PAGER_URL);
 
-        if (!TextUtils.isEmpty(saveJson)){
+        if (!TextUtils.isEmpty(saveJson)) {
             // 解析Json
             processData(saveJson);
         }
@@ -77,13 +77,13 @@ public class NewsCenterPager extends BasePager {
     }
 
     private void getDataFromNet() {
-            RequestParams requestParams = new RequestParams(Constants.NEWSCENTER_PAGER_URL);
+        RequestParams requestParams = new RequestParams(Constants.NEWSCENTER_PAGER_URL);
         x.http().get(requestParams, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 LogUtil.e("使用XUtil3 联网请求成功==" + result);
                 //缓存数据
-                CacheUtils.putString(context,Constants.NEWSCENTER_PAGER_URL,result);
+                CacheUtils.putString(context, Constants.NEWSCENTER_PAGER_URL, result);
                 // 解析Json
                 processData(result);
 
@@ -132,7 +132,7 @@ public class NewsCenterPager extends BasePager {
         detaiBasePagers = new ArrayList<>();
         detaiBasePagers.add(new NewsMenuDetailPager(context, data.get(0)));  // 新闻详情
         detaiBasePagers.add(new TopicMenuDetailPager(context, data.get(0)));  // 专题详情
-        detaiBasePagers.add(new PhotosMenuDetailPager(context));   // 图组详情
+        detaiBasePagers.add(new PhotosMenuDetailPager(context, data.get(2)));   // 图组详情
         detaiBasePagers.add(new InteracMenuDetailPager(context));   // 互动详情
 
         //把数据传递给左侧菜单
@@ -156,6 +156,21 @@ public class NewsCenterPager extends BasePager {
         menuDetaiBasePager.initData();  // 初始化视图
         View rootView = menuDetaiBasePager.rootView;
         fl_content.addView(rootView);
+
+        if (position == 2) {
+
+            ib_swich_list_grid.setVisibility(View.VISIBLE);
+            ib_swich_list_grid.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PhotosMenuDetailPager detailPager = (PhotosMenuDetailPager) detaiBasePagers.get(2);
+                    detailPager.swichListAndGrid(ib_swich_list_grid);
+                }
+            });
+        } else {
+            //其他页面
+            ib_swich_list_grid.setVisibility(View.GONE);
+        }
 
     }
 }

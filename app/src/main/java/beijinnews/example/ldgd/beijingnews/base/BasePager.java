@@ -1,7 +1,5 @@
 package beijinnews.example.ldgd.beijingnews.base;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -45,6 +43,7 @@ public class BasePager {
      * 加载各个子页面
      */
     public FrameLayout fl_content;
+    public ImageButton ib_swich_list_grid;
 
     public BasePager(Context context) {
         this.context = context;
@@ -56,6 +55,7 @@ public class BasePager {
         tv_title = (TextView) view.findViewById(R.id.tv_title);
         ib_menu = (ImageButton) view.findViewById(R.id.ib_menu);
         fl_content = (FrameLayout) view.findViewById(R.id.fl_content);
+        ib_swich_list_grid = (ImageButton) view.findViewById(R.id.ib_swich_list_grid);
 
         ib_menu.setOnClickListener(new View.OnClickListener() {
             @Override

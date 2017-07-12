@@ -1,6 +1,7 @@
 package beijinnews.example.ldgd.beijingnews.menudetaipager;
 
 import android.content.Context;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -8,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.viewpagerindicator.TabPageIndicator;
 
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
@@ -40,7 +40,7 @@ public class TopicMenuDetailPager extends MenuDetaiBasePager {
 
 
     @ViewInject(R.id.indicator)
-    private TabPageIndicator indicator;
+    private TabLayout indicator;
 
     @ViewInject(R.id.news_menu_viewpager)
     private ViewPager viewPager;
@@ -87,12 +87,19 @@ public class TopicMenuDetailPager extends MenuDetaiBasePager {
         viewPager.setAdapter(new MyNewsMenuDetailPagerAdapter());
 
         //  ViewPager和 TabPageIndicator关联
-        indicator.setViewPager(viewPager);
+     //   indicator.setViewPager(viewPager);
+        indicator.setupWithViewPager(viewPager);
 
         // viewPager.setCurrentItem(tempPositon);
 
         //注意以后监听页面的变化 ，TabPageIndicator监听页面的变化
-        indicator.setOnPageChangeListener(new MyOnPageChangeListener());
+      //  indicator.setOnPageChangeListener(new MyOnPageChangeListener());
+        viewPager.addOnPageChangeListener(new MyOnPageChangeListener());
+
+        //设置滚动模式
+        indicator.setTabMode(TabLayout.MODE_SCROLLABLE);
+
+
 
 
     }

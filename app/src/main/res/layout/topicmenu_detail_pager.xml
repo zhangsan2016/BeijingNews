@@ -9,12 +9,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.viewpagerindicator.TabPageIndicator
+        <android.support.design.widget.TabLayout
             android:id="@+id/indicator"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"/>
+
+      <!--  <com.viewpagerindicator.TabPageIndicator
+            android:id="@+id/indicator"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"/>-->
 
         <ImageButton
             android:id="@+id/ib_tab_next"
