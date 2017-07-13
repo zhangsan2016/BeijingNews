@@ -161,7 +161,7 @@ public class TopicMenuDetailPager extends MenuDetaiBasePager {
     }
 
     /**
-     根据传人的参数设置是否让SlidingMenu可以滑动
+         根据传人的参数设置是否让SlidingMenu可以滑动
      */
     private void isEnableSlidingMenu(int touchmodeFullscreen) {
 
