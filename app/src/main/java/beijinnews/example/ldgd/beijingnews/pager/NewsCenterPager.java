@@ -133,7 +133,7 @@ public class NewsCenterPager extends BasePager {
         detaiBasePagers.add(new NewsMenuDetailPager(context, data.get(0)));  // 新闻详情
         detaiBasePagers.add(new TopicMenuDetailPager(context, data.get(0)));  // 专题详情
         detaiBasePagers.add(new PhotosMenuDetailPager(context, data.get(2)));   // 图组详情
-        detaiBasePagers.add(new InteracMenuDetailPager(context));   // 互动详情
+        detaiBasePagers.add(new InteracMenuDetailPager(context, data.get(2)));   // 互动详情
 
         //把数据传递给左侧菜单
         leftmenuFragment.setData(data);

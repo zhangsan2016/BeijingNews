@@ -158,7 +158,7 @@ public class PhotosMenuDetailPager extends MenuDetaiBasePager {
             gridView.setVisibility(View.VISIBLE);
             gridView.setAdapter(adapter);
             listView.setVisibility(View.GONE);
-            //按钮显示--ListView
+            // 按钮显示--ListView
             ib_swich_list_grid.setBackgroundResource(R.drawable.icon_pic_list_type);
 
         }else{
