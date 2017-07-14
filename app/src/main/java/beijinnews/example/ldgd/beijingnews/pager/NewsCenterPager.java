@@ -31,6 +31,7 @@ import beijinnews.example.ldgd.beijingnews.utils.LogUtil;
 
 /**
  * Created by ldgd on 2017/5/23.
+ * 网络缓存工具类
  */
 
 public class NewsCenterPager extends BasePager {

@@ -72,7 +72,6 @@ public class BitmapCacheUtils {
 
         //3.请求网络图片
         netCacheUtils.getBitmapFomNet(imageUrl,position);
-
         return null;
     }
 

@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 
 /**
  * Created by ldgd on 2017/7/13.
+ * 本地缓存工具类
  */
 
 class LocalCacheUtils {
@@ -27,7 +28,7 @@ class LocalCacheUtils {
      */
     public void putBitmap(String imageUrl, Bitmap bitmap) {
         //判断sdcard是否挂载
-        if (Environment.getExternalStorageDirectory().equals(Environment.MEDIA_MOUNTED)) {
+        if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
             try {
                 //llkskljskljklsjklsllsl
                 String fileName = MD5Encoder.encode(imageUrl);
@@ -68,7 +69,7 @@ class LocalCacheUtils {
      */
     public Bitmap getBitmapFromUrl(String imageUrl) {
         //判断sdcard是否挂载
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+        if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
             //保存图片在/mnt/sdcard/beijingnews/http://192.168.21.165:8080/xsxxxx.png
             //保存图片在/mnt/sdcard/beijingnews/llkskljskljklsjklsllsl
             try {
@@ -84,7 +85,7 @@ class LocalCacheUtils {
                     Bitmap bitmap = BitmapFactory.decodeStream(is);
                     if (bitmap != null) {
                         memoryCacheUtils.putBitmap(imageUrl, bitmap);
-                        LogUtil.e("把从本地保持到内存中");
+                        LogUtil.e("把从本地保存到内存中");
                     }
                     return bitmap;
 

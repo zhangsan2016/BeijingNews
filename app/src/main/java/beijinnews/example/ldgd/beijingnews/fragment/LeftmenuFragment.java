@@ -20,6 +20,7 @@ import beijinnews.example.ldgd.beijingnews.utils.LogUtil;
 
 /**
  * Created by ldgd on 2017/5/18.
+ *
  */
 
 public class LeftmenuFragment extends BaseFragment {
