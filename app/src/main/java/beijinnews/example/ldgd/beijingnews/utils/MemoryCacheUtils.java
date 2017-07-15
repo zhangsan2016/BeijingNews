@@ -3,6 +3,7 @@ package beijinnews.example.ldgd.beijingnews.utils;
 import android.graphics.Bitmap;
 
 import org.xutils.cache.LruCache;
+
 /**
  * Created by ldgd on 2017/7/13.
  * Java之软引用&弱引用&虚引用
@@ -27,7 +28,7 @@ class MemoryCacheUtils {
                 //  return super.sizeOf(key, value);
 
                 //value.getRowBytes() * value.getHeight();
-              //  return (value.getRowBytes() * value.getHeight()) * 1024;
+                //  return (value.getRowBytes() * value.getHeight()) * 1024;
 
                 return (value.getRowBytes() * value.getHeight()) / 1024;
             }
@@ -43,11 +44,6 @@ class MemoryCacheUtils {
      */
     public void putBitmap(String imageUrl, Bitmap bitmap) {
         lruCache.put(imageUrl, bitmap);
-        Bitmap    cc  = lruCache.get(imageUrl);
-        if(cc == null){
-            LogUtil.e("null");
-        }
-        LogUtil.e("xxxxxxxxxxxxxx");
     }
 
     /**
