@@ -39,7 +39,7 @@ import static beijinnews.example.ldgd.beijingnews.R.id.listview;
 
 /**
  * Created by ldgd on 2017/6/3.
- * 互动页面
+ * 图组详情页面
  */
 
 public class PhotosMenuDetailPager extends MenuDetaiBasePager {
