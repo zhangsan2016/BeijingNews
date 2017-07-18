@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BeijingNews.iml" filepath="$PROJECT_DIR$/BeijingNews.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Loader-master_sample/Loader-master_sample.iml" filepath="$PROJECT_DIR$/Loader-master_sample/Loader-master_sample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Loader-master_sample_library/Loader-master_sample_library.iml" filepath="$PROJECT_DIR$/Loader-master_sample_library/Loader-master_sample_library.iml" />
       <module fileurl="file://$PROJECT_DIR$/SlidingMenu_library/SlidingMenu_library.iml" filepath="$PROJECT_DIR$/SlidingMenu_library/SlidingMenu_library.iml" />
       <module fileurl="file://$PROJECT_DIR$/ViewPagerIndicator-master_sample/ViewPagerIndicator-master_sample.iml" filepath="$PROJECT_DIR$/ViewPagerIndicator-master_sample/ViewPagerIndicator-master_sample.iml" />
       <module fileurl="file://$PROJECT_DIR$/ViewPagerIndicator_library/ViewPagerIndicator_library.iml" filepath="$PROJECT_DIR$/ViewPagerIndicator_library/ViewPagerIndicator_library.iml" />

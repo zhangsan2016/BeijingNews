@@ -1,6 +1,7 @@
 package beijinnews.example.ldgd.beijingnews.menudetaipager;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
@@ -181,6 +184,23 @@ public class PhotosMenuDetailPager extends MenuDetaiBasePager {
 
 
     private class PhotosMenuDetailPagerAdapter extends BaseAdapter {
+        private DisplayImageOptions options;
+
+        public PhotosMenuDetailPagerAdapter() {
+
+            options = new DisplayImageOptions.Builder()
+                    .showImageOnLoading(R.drawable.home_scroll_default)
+                    .showImageForEmptyUri(R.drawable.home_scroll_default)
+                    .showImageOnFail(R.drawable.home_scroll_default)
+                    .cacheInMemory(true)
+                    .cacheOnDisk(true)
+                    .considerExifParams(true)
+                    .bitmapConfig(Bitmap.Config.ARGB_8888)
+                //    .bitmapConfig(Bitmap.Config.RGB_565)
+                    .displayer(new RoundedBitmapDisplayer(10))
+                    .build();
+        }
+
         @Override
         public int getCount() {
             return news.size();
@@ -233,8 +253,12 @@ public class PhotosMenuDetailPager extends MenuDetaiBasePager {
             PhotosMenuDetailPagerBean.DataBean.NewsBean newsEntity = news.get(position);
             viewHolder.tv_title.setText(newsEntity.getTitle());
             String imageUrl = Constants.BASE_URL+newsEntity.getSmallimage();
-            //使用Volley请求图片-设置图片了
-            loaderImager(viewHolder, imageUrl );
+
+            // 使用Volley请求图片-设置图片了
+       //     loaderImager(viewHolder, imageUrl );
+
+            // 使用imager_loder加载图片
+            com.nostra13.universalimageloader.core.ImageLoader.getInstance().displayImage(imageUrl, viewHolder.iv_icon, options);
 
             return convertView;
         }
