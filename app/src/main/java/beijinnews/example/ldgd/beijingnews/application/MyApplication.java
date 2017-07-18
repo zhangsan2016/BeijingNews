@@ -6,6 +6,7 @@ import org.xutils.BuildConfig;
 import org.xutils.x;
 
 import beijinnews.example.ldgd.beijingnews.volley.VolleyManager;
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by ldgd on 2017/5/16.
@@ -23,6 +24,9 @@ public class MyApplication extends Application {
         // 初始化Volley
         VolleyManager.init(this);
 
+        // 极光推送
+        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);     		// 初始化 JPush
 
 
     }
