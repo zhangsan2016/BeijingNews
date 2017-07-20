@@ -40,4 +40,6 @@ dependencies {
     compile files('libs/jpush-android-3.0.7.jar')
     /*Loader-master库 实现图片页面加载*/
     compile project(':Loader-master_sample_library')
+    compile project(':PhotoView-master_photoview_library')
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

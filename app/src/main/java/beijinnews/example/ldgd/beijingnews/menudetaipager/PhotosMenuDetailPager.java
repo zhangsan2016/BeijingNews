@@ -1,10 +1,12 @@
 package beijinnews.example.ldgd.beijingnews.menudetaipager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -30,6 +32,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import beijinnews.example.ldgd.beijingnews.R;
+import beijinnews.example.ldgd.beijingnews.activity.ShowImageActivity;
 import beijinnews.example.ldgd.beijingnews.base.MenuDetaiBasePager;
 import beijinnews.example.ldgd.beijingnews.domain.NewCenterPagerBase;
 import beijinnews.example.ldgd.beijingnews.domain.PhotosMenuDetailPagerBean;
@@ -76,7 +79,23 @@ public class PhotosMenuDetailPager extends MenuDetaiBasePager {
         View view = View.inflate(context, R.layout.photos_menudetail_pager, null);
         x.view().inject(this, view);
 
+        listView.setOnItemClickListener(new MyOnItemClickListener());
+        gridView.setOnItemClickListener(new MyOnItemClickListener());
+
         return view;
+    }
+
+    private class MyOnItemClickListener implements AdapterView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            PhotosMenuDetailPagerBean.DataBean.NewsBean newsEntity = news.get(position);
+            String imageUrl = Constants.BASE_URL + newsEntity.getLargeimage();
+            Intent intent = new Intent(context, ShowImageActivity.class);
+            intent.putExtra("url", imageUrl);
+            context.startActivity(intent);
+
+        }
     }
 
     @Override
@@ -150,12 +169,14 @@ public class PhotosMenuDetailPager extends MenuDetaiBasePager {
      * false,显示GridView,隐藏ListView
      */
     private boolean isShowListView = true;
+
     /**
      * List和Grid切换
+     *
      * @param ib_swich_list_grid
      */
     public void swichListAndGrid(ImageButton ib_swich_list_grid) {
-        if(isShowListView){
+        if (isShowListView) {
             isShowListView = false;
             adapter = new PhotosMenuDetailPagerAdapter();
             gridView.setVisibility(View.VISIBLE);
@@ -164,7 +185,7 @@ public class PhotosMenuDetailPager extends MenuDetaiBasePager {
             // 按钮显示--ListView
             ib_swich_list_grid.setBackgroundResource(R.drawable.icon_pic_list_type);
 
-        }else{
+        } else {
             isShowListView = true;
             adapter = new PhotosMenuDetailPagerAdapter();
             gridView.setVisibility(View.GONE);
@@ -173,7 +194,6 @@ public class PhotosMenuDetailPager extends MenuDetaiBasePager {
             //按钮显示--ListView
             ib_swich_list_grid.setBackgroundResource(R.drawable.icon_pic_list_type);
         }
-
 
 
     }
@@ -196,7 +216,7 @@ public class PhotosMenuDetailPager extends MenuDetaiBasePager {
                     .cacheOnDisk(true)
                     .considerExifParams(true)
                     .bitmapConfig(Bitmap.Config.ARGB_8888)
-                //    .bitmapConfig(Bitmap.Config.RGB_565)
+                    //    .bitmapConfig(Bitmap.Config.RGB_565)
                     .displayer(new RoundedBitmapDisplayer(10))
                     .build();
         }
@@ -239,23 +259,23 @@ public class PhotosMenuDetailPager extends MenuDetaiBasePager {
             loaderImager(viewHolder, imageUrl );*/
 
             ViewHolder viewHolder;
-            if(convertView == null){
-                convertView = View.inflate(context,R.layout.item_photos_menudetail_pager,null);
+            if (convertView == null) {
+                convertView = View.inflate(context, R.layout.item_photos_menudetail_pager, null);
                 viewHolder = new ViewHolder();
                 viewHolder.iv_icon = (ImageView) convertView.findViewById(R.id.iv_icon);
                 viewHolder.tv_title = (TextView) convertView.findViewById(R.id.tv_title);
                 convertView.setTag(viewHolder);
-            }else{
+            } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
 
             //根据位置得到对应的数据
             PhotosMenuDetailPagerBean.DataBean.NewsBean newsEntity = news.get(position);
             viewHolder.tv_title.setText(newsEntity.getTitle());
-            String imageUrl = Constants.BASE_URL+newsEntity.getSmallimage();
+            String imageUrl = Constants.BASE_URL + newsEntity.getSmallimage();
 
             // 使用Volley请求图片-设置图片了
-       //     loaderImager(viewHolder, imageUrl );
+            //     loaderImager(viewHolder, imageUrl );
 
             // 使用imager_loder加载图片
             com.nostra13.universalimageloader.core.ImageLoader.getInstance().displayImage(imageUrl, viewHolder.iv_icon, options);
@@ -264,7 +284,7 @@ public class PhotosMenuDetailPager extends MenuDetaiBasePager {
         }
     }
 
-    static class ViewHolder{
+    static class ViewHolder {
         ImageView iv_icon;
         TextView tv_title;
     }
@@ -273,7 +293,7 @@ public class PhotosMenuDetailPager extends MenuDetaiBasePager {
     private void loaderImager(final ViewHolder viewHolder, String imageurl) {
 
         //设置tag
-      //  viewHolder.iv_icon.setTag(imageurl);
+        //  viewHolder.iv_icon.setTag(imageurl);
         //直接在这里请求会乱位置
         ImageLoader.ImageListener listener = new ImageLoader.ImageListener() {
             @Override
@@ -291,6 +311,7 @@ public class PhotosMenuDetailPager extends MenuDetaiBasePager {
                     }
                 }
             }
+
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 //如果出错，则说明都不显示（简单处理），最好准备一张出错图片
