@@ -3,6 +3,7 @@ package beijinnews.example.ldgd.beijingnews.application;
 import android.app.Application;
 import android.content.Context;
 
+import com.mob.MobSDK;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -37,6 +38,19 @@ public class MyApplication extends Application {
         // Image_loader框架初始化
         initImageLoader(getApplicationContext());
 
+
+         // ShareSDK 初始化
+        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);     		// 初始化 JPush
+        MobSDK.init(this, this.a(), this.b());
+
+    }
+
+    protected String a() {
+        return null;
+    }
+    protected String b() {
+        return null;
     }
 
     public static void initImageLoader(Context context) {
