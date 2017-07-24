@@ -84,7 +84,6 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
             // Handle ccks for ibMenu
         } else if (v == ibTextsize) {
             showChangeTextSizeDialog();
-
         } else if (v == ibShare) {
             showShare();
         } else if (v == ibSwichListGrid) {
