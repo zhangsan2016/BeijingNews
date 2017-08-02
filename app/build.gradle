@@ -42,6 +42,7 @@ dependencies {
     compile project(':Loader-master_sample_library')
     compile project(':PhotoView-master_photoview_library')
     compile 'com.squareup.picasso:picasso:2.5.2'
+    /* ShareSDK */
     compile files('libs/MobCommons-2017.0608.1618.jar')
     compile files('libs/MobTools-2017.0608.1618.jar')
     compile files('libs/ShareSDK-Alipay-3.0.0.jar')
